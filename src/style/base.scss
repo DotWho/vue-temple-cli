@@ -1,0 +1,110 @@
+@import 'variables';
+@import 'uireset';
+
+html {
+    touch-action: manipulation;
+    -ms-touch-action: manipulation;
+}
+
+body {
+    font-size: 14px;
+    color: $deepgrey;
+    background-color: #f5f4f9;
+}
+
+a {
+    color: $primary;
+    transition: color 300ms ease;
+    &:hover {
+        color: $primary;
+    }
+}
+
+textarea {
+    resize: none;
+}
+
+ul,
+li {
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    margin: 24px auto 0;
+    width: 1200px;
+    background-color: $white;
+}
+
+.block {
+    display: block !important;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+
+.text-left {
+    text-align: left !important;
+}
+
+.text-center {
+    text-align: center !important;
+}
+
+.text-right {
+    text-align: right !important;
+}
+
+.pull-right {
+    float: right !important;
+}
+
+.pull-left {
+    float: left !important;
+}
+
+.clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+
+.ft12 {
+    font-size: 12px !important;
+}
+
+.ft14 {
+    font-size: 14px !important;
+}
+
+.ft16 {
+    font-size: 16px !important;
+}
+
+.ft18 {
+    font-size: 18px !important;
+}
+
+.ft20 {
+    font-size: 20px !important;
+}
+
+.ft24 {
+    font-size: 24px !important;
+}
+
+.ft32 {
+    font-size: 32px !important;
+}
+
+.ft-bold {
+    font-weight: bold !important;
+}
+
+@include colorFactory('primary', $primary);
+@include colorFactory('deepgrey', $deepgrey);
+@include colorFactory('grey', $grey);
+@include colorFactory('red', $red);
+@include colorFactory('orange', $orange);
+@include colorFactory('blue', $blue);
