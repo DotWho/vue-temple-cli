@@ -28,6 +28,8 @@ import '@/style/base.scss'
 
 Vue.config.productionTip = false
 
+import './registerServiceWorker'
+
 new Vue({
     router,
     store,
