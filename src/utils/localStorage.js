@@ -22,7 +22,7 @@ const localStorage = window.localStorage
  * @param {*} value 值
  */
 function setItem(key, value) {
-    localStorage.setItem(key, JSON.stringify(value))
+  localStorage.setItem(key, JSON.stringify(value))
 }
 
 /**
@@ -31,11 +31,11 @@ function setItem(key, value) {
  * @returns {*|null}
  */
 function getItem(key) {
-    const result = localStorage.getItem(key)
-    if (result) {
-        return JSON.parse(result)
-    }
-    return null
+  const result = localStorage.getItem(key)
+  if (result) {
+    return JSON.parse(result)
+  }
+  return null
 }
 
 /**
@@ -43,7 +43,7 @@ function getItem(key) {
  * @param key
  */
 function removeItem(key) {
-    localStorage.removeItem(key)
+  localStorage.removeItem(key)
 }
 
 /**
@@ -51,7 +51,7 @@ function removeItem(key) {
  * @returns {number}
  */
 function getNow() {
-    return Date.parse(new Date())
+  return Date.parse(new Date())
 }
 
 // 缓存表前缀
@@ -62,103 +62,103 @@ const mapKey = 'local-'
  * 支持过期时间
  */
 class LzLocalStorage {
-    /**
-     * @param {String} namespace 命名空间
-     */
-    constructor(namespace = '') {
-        // 缓存命名空间
-        this.namespace = namespace
-        // 缓存表key
-        this.mapKey = mapKey + this.namespace
-        // 缓存表
-        this.map = getItem(this.mapKey) || {}
-    }
+  /**
+   * @param {String} namespace 命名空间
+   */
+  constructor(namespace = '') {
+    // 缓存命名空间
+    this.namespace = namespace
+    // 缓存表key
+    this.mapKey = mapKey + this.namespace
+    // 缓存表
+    this.map = getItem(this.mapKey) || {}
+  }
 
-    /**
-     * 设置缓存
-     * @param {String} key 键
-     * @param {*} value 值
-     * @param {Number} expires 过期时间（毫秒） -1不过期，
-     */
-    set(key, value, expires = -1) {
-        const k = this.getReallyKey(key)
-        const obj = {
-            expires,
-            time: getNow()
+  /**
+   * 设置缓存
+   * @param {String} key 键
+   * @param {*} value 值
+   * @param {Number} expires 过期时间（毫秒） -1不过期，
+   */
+  set(key, value, expires = -1) {
+    const k = this.getReallyKey(key)
+    const obj = {
+      expires,
+      time: getNow()
+    }
+    setItem(k, value)
+    this.map[key] = obj
+    setItem(this.mapKey, this.map)
+  }
+
+  /**
+   * 获取真实的缓存键
+   * @param {String} key 键
+   * @returns {string}
+   */
+  getReallyKey(key) {
+    return this.namespace + '-' + key
+  }
+
+  /**
+   * 获取缓存内容
+   * @param {String} key 键
+   * @param {*} defaultValue 默认返回值
+   * @returns {*} 若未取到则返回defaultValue
+   */
+  get(key, defaultValue) {
+    const k = this.getReallyKey(key)
+    let obj = this.map[key]
+    // 缓存存在
+    if (obj) {
+      // 缓存无过期时间
+      if (obj.expires > -1) {
+        // 在缓存时间内
+        if (getNow() - obj.time <= obj.expires) {
+          return getItem(k) || defaultValue
+        } else {
+          this.delete(key)
         }
-        setItem(k, value)
-        this.map[key] = obj
-        setItem(this.mapKey, this.map)
+      } else {
+        return getItem(k) || defaultValue
+      }
     }
+    return defaultValue
+  }
 
-    /**
-     * 获取真实的缓存键
-     * @param {String} key 键
-     * @returns {string}
-     */
-    getReallyKey(key) {
-        return this.namespace + '-' + key
+  /**
+   * 获取命名空间下所有缓存
+   * @returns {Object}
+   */
+  getAll() {
+    const result = {}
+    for (const i in this.map) {
+      result[i] = this.get(i)
     }
+    return result
+  }
 
-    /**
-     * 获取缓存内容
-     * @param {String} key 键
-     * @param {*} defaultValue 默认返回值
-     * @returns {*} 若未取到则返回defaultValue
-     */
-    get(key, defaultValue) {
-        const k = this.getReallyKey(key)
-        let obj = this.map[key]
-        // 缓存存在
-        if (obj) {
-            // 缓存无过期时间
-            if (obj.expires > -1) {
-                // 在缓存时间内
-                if (getNow() - obj.time <= obj.expires) {
-                    return getItem(k) || defaultValue
-                } else {
-                    this.delete(key)
-                }
-            } else {
-                return getItem(k) || defaultValue
-            }
-        }
-        return defaultValue
-    }
+  /**
+   * 删除单个缓存
+   * @param {String} key 键
+   */
+  delete(key) {
+    const k = this.getReallyKey(key)
+    delete this.map[key]
+    // 重置缓存表
+    setItem(this.mapKey, this.map)
+    // 删除缓存
+    removeItem(k)
+  }
 
-    /**
-     * 获取命名空间下所有缓存
-     * @returns {Object}
-     */
-    getAll() {
-        const result = {}
-        for (const i in this.map) {
-            result[i] = this.get(i)
-        }
-        return result
+  /**
+   * 删除所有命名空间缓存
+   */
+  deleteAll() {
+    for (const i in this.map) {
+      this.delete(i)
     }
-
-    /**
-     * 删除单个缓存
-     * @param {String} key 键
-     */
-    delete(key) {
-        const k = this.getReallyKey(key)
-        delete this.map[key]
-        // 重置缓存表
-        setItem(this.mapKey, this.map)
-        // 删除缓存
-        removeItem(k)
-    }
-
-    /**
-     * 删除所有命名空间缓存
-     */
-    deleteAll() {
-        for (const i in this.map) {
-            this.delete(i)
-        }
-    }
+  }
 }
 
 export default LzLocalStorage

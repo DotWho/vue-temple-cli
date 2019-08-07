@@ -1,28 +1,33 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import * as types from './mutation-types'
 
-import * as actions from './actions'
-import * as getters from './getters'
-
-let modules = {}
-
-function rename(key) {
-    let name = key
-        .replace(/\.+\//, '')
-        .replace(/\.js/, '')
-        .replace(/^(\w)/, v => v.toLowerCase())
-    return name
+function commit(type, data) {
+  mutations[type](state, data)
 }
 
-const requireContext = require.context('./modules', true, /.*\.js/)
-requireContext.keys().map(key => {
-    modules[rename(key)] = requireContext(key).default
-})
+const state = {
+  email: ''
+}
 
-Vue.use(Vuex)
+const store = Vue.observable(state)
 
-export default new Vuex.Store({
-    actions,
-    getters,
-    modules
-})
+const mutations = {
+  [types.SET_USER](state, data) {
+    state.email = data.email
+  }
+}
+
+const actions = {
+  setUser({ commit }, res) {
+    commit(types.SET_USER, {
+      email: res.data.user.email
+    })
+  }
+}
+
+export default {
+  getters: store,
+  dispatch: (action, data) => {
+    return actions[action]({ commit }, data)
+  }
+}

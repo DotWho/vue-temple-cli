@@ -2,9 +2,11 @@ import Vue from 'vue'
 
 import App from './App'
 
-import store from './store'
-
 import router from './router'
+
+// Vue.observable
+import store from './store/install'
+Vue.use(store)
 
 import components from './components'
 Vue.use(components)
@@ -31,7 +33,6 @@ Vue.config.productionTip = false
 import './registerServiceWorker'
 
 new Vue({
-    router,
-    store,
-    render: h => h(App)
+  router,
+  render: h => h(App)
 }).$mount('#app')

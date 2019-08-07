@@ -11,27 +11,35 @@ module.exports = {
         ecmaVersion: 2018
     },
     rules: {
-        'vue/no-v-html': 'off',
         'vue/html-self-closing': 'off',
-        'vue/component-name-in-template-casing': 'off',
+        'vue/no-v-html': 'off',
+        // 'vue/component-name-in-template-casing': 'off',
         'vue/multiline-html-element-content-newline': 'off',
         'vue/singleline-html-element-content-newline': 'off',
-        'vue/html-indent': 4,
         'vue/valid-v-else': 'off',
         'vue/no-parsing-error': [
-            2,
+            'error',
             {
                 'x-invalid-end-tag': false
             }
         ],
-        indent: [
+        // 'vue/html-indent': 'off',
+        // 'vue/html-indent': ['error', 2, { baseIndent: 1 }],
+        'vue/html-indent': [
             'error',
-            4,
+            2,
             {
-                SwitchCase: 1
+                attribute: 1,
+                baseIndent: 1,
+                closeBracket: 0,
+                alignAttributesVertically: true,
+                ignores: []
             }
         ],
+        'vue/script-indent': ['error', 2, { baseIndent: 0, switchCase: 1 }],
         'linebreak-style': ['error', 'windows'],
+        // indent: 'off',
+        indent: ['error', 2, { SwitchCase: 1 }],
         quotes: ['error', 'single'],
         semi: ['error', 'never']
     }

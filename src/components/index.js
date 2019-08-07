@@ -4,35 +4,31 @@
 // 例子2  src/components/Hello.vue, <Hello>
 
 function rename(key) {
-    let name = ''
-    let temp = key
-        .replace(/\.+\//, '')
-        .replace(/\.vue/, '')
-        .split('/')
-    temp.forEach(el => {
-        name += el
-            .toLowerCase()
-            .replace(/( |^)[a-z]/g, L => L.toUpperCase())
-    })
-    return name
+  let name = ''
+  let temp = key
+    .replace(/\.+\//, '')
+    .replace(/\.vue/, '')
+    .split('/')
+  temp.forEach(el => {
+    name += el.toLowerCase().replace(/( |^)[a-z]/g, L => L.toUpperCase())
+  })
+  return name
 }
 
 const requireContext = require.context('./', true, /.*\.vue$/)
 
-const components = requireContext.keys().map(key => (
-    {
-        name: rename(key),
-        component: requireContext(key).default
-    }
-))
+const components = requireContext.keys().map(key => ({
+  name: rename(key),
+  component: requireContext(key).default
+}))
 
 const install = Vue => {
-    if (install.installed) return
-    install.installed = true
+  if (install.installed) return
+  install.installed = true
 
-    components.forEach(el => {
-        Vue.component(el.name, el.component)
-    })
+  components.forEach(el => {
+    Vue.component(el.name, el.component)
+  })
 }
 
 export default install

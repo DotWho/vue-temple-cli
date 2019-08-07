@@ -1,3 +1,4 @@
+const path = require('path')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 
 // 是否使用gzip
@@ -9,58 +10,73 @@ const productionGzipExtensions = ['js', 'css']
 // 转为CND外链方式的npm包
 // 键名是import的npm包名
 // 键值是该库暴露的全局变量
-const externals = {
-    vue: 'Vue',
-    'vue-router': 'VueRouter',
-    vuex: 'Vuex',
-    axios: 'axios'
-}
+// const externals = {
+//     vue: 'Vue',
+//     iview: 'iview',
+//     'vue-router': 'VueRouter',
+//     // vuex: 'Vuex',
+//     axios: 'axios'
+// }
 
 // CDN外链，会插入到index.html中
-const cdn = {
-    // 开发环境
-    dev: {
-        css: [],
-        js: []
-    },
-    // 生产环境
-    build: {
-        css: [],
-        js: [
-            '//unpkg.com/vue@2.5.21/dist/vue.runtime.min.js',
-            '//unpkg.com/vue-router@3.0.2/dist/vue-router.min.js',
-            '//unpkg.com/vuex@3.0.1/dist/vuex.min.js',
-            '//unpkg.com/axios@0.18.0/dist/axios.min.js'
-        ]
-    }
-}
+// const cdn = {
+//     // 开发环境
+//     dev: {
+//         css: ['https://unpkg.com/iview@3.4.2/dist/styles/iview.css'],
+//         js: []
+//     },
+//     // 生产环境
+//     build: {
+//         css: ['https://unpkg.com/iview@3.4.2/dist/styles/iview.css'],
+//         js: [
+//             'https://unpkg.com/vue@2.6.10/dist/vue.min.js',
+//             'https://unpkg.com/iview@3.4.2/dist/iview.min.js',
+//             'https://unpkg.com/vue-router@3.0.6/dist/vue-router.min.js',
+//             // 'https://unpkg.com/vuex@3.1.1/dist/vuex.min.js',
+//             'https://unpkg.com/axios@0.18.0/dist/axios.min.js'
+//         ]
+//     }
+// }
 
 module.exports = {
     publicPath: '/',
     assetsDir: 'static',
     outputDir: './dist',
-    filenameHashing: false,
+    filenameHashing: true,
     css: {
         loaderOptions: {
             // 给 sass-loader 传递选项
             sass: {
-                data: '@import "@/style/variables.scss";'
+                data: `@import "@/style/variables.scss";$src: "${
+                    process.env.VUE_APP_STATIC
+                }";`
             }
         }
     },
     pwa: {
-        name: '名称',
+        name: '红天桃信息系统',
         themeColor: '#789262',
         msTileColor: '#789262',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'default',
         // configure the workbox plugin
-        // workboxPluginMode: 'InjectManifest',
-        // workboxOptions: {
-        //     // swSrc is required in InjectManifest mode.
-        //     swSrc: 'dev/sw.js'
-        //     // ...other Workbox options...
-        // },
+        /*
+         * 两个模式，GenerateSW（默认）和 InjectManifest
+         * GenerateSW 在我们build项目时候，每次都会新建一个service worker文件
+         * InjectManifest 可以让我们编辑一个自定义的service worker文件，实现更多的功能，并且可以
+         * 拿到预缓存列表
+         */
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            swSrc: 'src/service-worker.js',
+            importWorkboxFrom: 'local'
+            // skipWaiting: true,
+            // clientsClaim: true,
+            // swSrc is required in InjectManifest mode.
+            // swSrc: 'static/sw.js',
+            // ...other Workbox options...
+            // exclude: [/\.html$/]
+        },
         iconPaths: {
             favicon32: 'static/icons/favicon-32x32.png',
             favicon16: 'static/icons/favicon-16x16.png',
@@ -70,16 +86,43 @@ module.exports = {
         }
     },
     chainWebpack: config => {
-        config.plugins.delete('prefetch')
-        config.plugin('html').tap(args => {
-            if (process.env.NODE_ENV === 'production') {
-                args[0].cdn = cdn.build
-            }
-            if (process.env.NODE_ENV === 'development') {
-                args[0].cdn = cdn.dev
-            }
-            return args
-        })
+        // 生产环境npm包转CDN
+        // config.plugins.delete('prefetch')
+        // config.plugin('html').tap(args => {
+        //     if (process.env.NODE_ENV === 'production') {
+        //         args[0].cdn = cdn.build
+        //     }
+        //     if (process.env.NODE_ENV === 'development') {
+        //         args[0].cdn = cdn.dev
+        //     }
+        //     return args
+        // })
+
+        // config.optimization.minimize(true)
+        // config.optimization.delete('splitChunks')
+        // config.optimization.splitChunks({
+        //     chunks: 'all', // initial、async和all
+        //     minSize: 30000, // 形成一个新代码块最小的体积
+        //     maxAsyncRequests: 5, // 按需加载时候最大的并行请求数
+        //     maxInitialRequests: 3, // 最大初始化请求数
+        //     automaticNameDelimiter: '~', // 打包分割符
+        //     name: true,
+        //     cacheGroups: {
+        //         vendor: {
+        //             name: 'vendor',
+        //             test: /[\\/]node_modules[\\/]/, //打包第三方库
+        //             chunks: 'all',
+        //             priority: 10 // 优先级
+        //         },
+        //         common: {
+        //             // 打包其余的的公共代码
+        //             minChunks: 2, // 引入两次及以上被打包
+        //             name: 'common', // 分离包的名字
+        //             chunks: 'all',
+        //             priority: 5
+        //         }
+        //     }
+        // })
 
         if (process.env.NODE_ENV === 'development') {
             config.output.set('filename', 'static/js/[name].js')
@@ -90,10 +133,18 @@ module.exports = {
         }
     },
     configureWebpack: () => {
-        const myConfig = { devtool: 'source-map' }
+        const myConfig = {
+            devtool: 'source-map',
+            resolve: {
+                alias: {
+                    '@': path.resolve('./src'),
+                    '@com': path.resolve('./src/components')
+                }
+            }
+        }
         if (process.env.NODE_ENV === 'production') {
             // 生产环境npm包转CDN
-            myConfig.externals = externals
+            // myConfig.externals = externals
             myConfig.plugins = []
             productionGzip &&
                 myConfig.plugins.push(
@@ -112,8 +163,7 @@ module.exports = {
         port: 9900, // 端口号
         // host: 'localhost',
         https: false, // https:{type:Boolean}
-        open: true, //配置自动启动浏览器
-        proxy: 'http://192.168.50.192:8081/ag/action'
+        open: true //配置自动启动浏览器
         // proxy: {
         //     '/proxyApi': {
         //         target: 'http://192.168.50.192:8081/ag/action', // Test
