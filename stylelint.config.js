@@ -1,3 +1,10 @@
+/*
+ * @Author: Dr.Who
+ * @Description: file content
+ * @Date: 2019-08-12 14:06:23
+ * @LastEditors: Dr.Who
+ * @LastEditTime: 2019-08-13 14:49:33
+ */
 module.exports = {
   rules: {
     'block-no-empty': null,
@@ -12,11 +19,12 @@ module.exports = {
     indentation: [
       2,
       {
-        except: ['value']
+        except: ['value'],
+        indentInsideParens: 'twice'
       }
     ],
     'max-empty-lines': 2,
-    'unit-whitelist': ['px', 'rem', '%', 's', 'ms', 'vh', 'vw'],
+    'unit-whitelist': ['px', 'rem', '%', 's', 'ms', 'vh', 'vw', 'deg', 'turn'],
     // 不要使用已被 autoprefixer 支持的浏览器前缀
     'media-feature-name-no-vendor-prefix': true,
     'at-rule-no-vendor-prefix': true,
