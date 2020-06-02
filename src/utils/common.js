@@ -17,9 +17,6 @@ export default {
   axiosToken() {
     return source.token
   },
-  setImg(path) {
-    return `${process.env.VUE_APP_STATIC}${path}`
-  },
   setStorage(key, value, expired = 30000) {
     if (typeof expired === 'string') {
       let baseNum = 0

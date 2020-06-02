@@ -1,23 +1,23 @@
 <template>
   <div>
-    {{ 30000|fmtMoney }}
-    {{ 30000|fmtMoney(1) }}
-    {{ 30000|fmtMoney(2) }}
-    <br />
-    {{ 30000.01|fmtMoney }}
-    {{ 30000.22|fmtMoney(0) }}
-    {{ 30000.300|fmtMoney(3) }}
+    <img
+      alt="Vue logo"
+      src="@/assets/logo.png"
+    />
+    <div class="home">&nbsp;</div>
   </div>
 </template>
 
 <script>
 export default {
-  data() {
-    return {}
-  },
-  methods: {}
+  name: 'Home'
 }
 </script>
 
 <style lang="scss">
+.home {
+  width: 200px;
+  height: 200px;
+  background: url(setImg('logo.png')) no-repeat;
+}
 </style>

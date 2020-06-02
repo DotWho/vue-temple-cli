@@ -1,7 +1,5 @@
 import Vue from 'vue'
-
-import App from './App'
-
+import App from './App.vue'
 import router from './router'
 
 // Vue.observable
@@ -29,8 +27,6 @@ Vue.use(Common)
 import '@/style/base.scss'
 
 Vue.config.productionTip = false
-
-import './registerServiceWorker'
 
 new Vue({
   router,
