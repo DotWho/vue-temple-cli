@@ -1,7 +1,7 @@
 const options = {
   error: {
     // 设为true后在开发环境不会收集错误信息
-    developmentOff: false
+    developmentOff: true
   }
 }
 

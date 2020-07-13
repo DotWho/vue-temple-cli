@@ -8,19 +8,6 @@ const filters = {
   // 格式化时间
   fmtTime: (value, fmt) => {
     return Common.fmtTime(value, fmt)
-  },
-  // 格式化数字 * 100
-  fmtRate: (value, point) => {
-    return Common.fmtRate(value, point)
-  },
-  // 4位一空格（格式化银行卡）
-  fmtBank: val => {
-    if (val) {
-      return val
-        .toString()
-        .replace(/\s/g, '')
-        .replace(/(.{4})/g, '$1 ')
-    }
   }
 }
 

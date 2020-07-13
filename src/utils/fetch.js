@@ -20,6 +20,16 @@ instance.interceptors.request.use(
   config => {
     config.cancelToken = Common.axiosToken()
     if (!config.reCon) {
+      let token = store.getters.token //? store.getters.token : Common.getStorage('TOKEN', '')
+      // 判断是否存在token，如果存在的话，则每个http header都加上token
+      if (token) {
+        config.headers['Session-Key'] = token
+      }
+
+      if (config.headers['Content-Type'] === 'multipart/form-data') {
+        return config
+      }
+
       if (
         config.method === 'post' ||
         config.method === 'put' ||
@@ -39,12 +49,6 @@ instance.interceptors.request.use(
       if (config.method === 'data') {
         config.method = 'post'
       }
-    }
-
-    let token = store.getters.token //? store.getters.token : Common.getStorage('HTT_TOKEN', '')
-    // 判断是否存在token，如果存在的话，则每个http header都加上token
-    if (token) {
-      config.headers['HTT-Session-Key'] = token
     }
 
     return config
@@ -104,10 +108,6 @@ function fetch(options) {
         switch (res.code) {
           case 1: // 成功
             resolve(res.body)
-            break
-          case 1201: // 用户未登录
-            store.dispatch('clearUser')
-            reject()
             break
           default:
             // Message.error(

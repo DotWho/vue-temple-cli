@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Common from '@/utils/common'
 
 Vue.use(Router)
 
@@ -31,13 +30,23 @@ const scrollBehavior = (to, from, savedPosition) => {
 }
 
 const router = new Router({
-  mode: 'history',
+  // mode: 'history',
   scrollBehavior,
   routes
 })
 
 router.beforeEach((to, from, next) => {
-  Common.axiosUpdate()
+  // const token = Common.getStorage('token', null)
+  // if(!token && to.path !== '/login') {
+  //   next({
+  //     path: '/login'
+  //   })
+  //   return false
+  // }
+  // if (to.path === '/login') {
+  //   next()
+  //   return false
+  // }
   next()
 })
 

@@ -2,7 +2,7 @@ import Storage from './localStorage'
 import store from '@/store'
 import axios from 'axios'
 
-const lsg = new Storage('htt')
+const lsg = new Storage('byt')
 
 let source = {
   token: null,
@@ -44,13 +44,6 @@ export default {
   },
   delStorage(key) {
     lsg.delete(key)
-  },
-  fmtRate(value, point = 1) {
-    if (!value) {
-      return
-    }
-
-    return (Number(value) * 100).toFixed(point).toString()
   },
   fmtMoney(value, point = 2) {
     if (!value) {
@@ -114,8 +107,20 @@ export default {
     }
     return defs
   },
+  debounce(fn, wait = 50, immediate) {
+    let timer
+    return function() {
+      if (immediate) {
+        fn.apply(this, arguments)
+      }
+      if (timer) clearTimeout(timer)
+      timer = setTimeout(() => {
+        fn.apply(this, arguments)
+      }, wait)
+    }
+  },
   getToken() {
-    const token = this.getStorage('HTT_TOKEN')
+    const token = this.getStorage('TOKEN')
     if (token) {
       store.dispatch('setToken', token)
       return token

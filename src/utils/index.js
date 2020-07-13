@@ -5,7 +5,6 @@ const install = Vue => {
   install.installed = true
 
   Object.defineProperties(Vue.prototype, {
-    // 挂载在 Vue 原型的 $Common 对象上
     $Common: {
       get() {
         return {

@@ -1,10 +1,3 @@
-/*
- * @Author: Dr.Who
- * @Description: file content
- * @Date: 2019-08-12 14:06:23
- * @LastEditors: Dr.Who
- * @LastEditTime: 2019-08-13 14:49:33
- */
 module.exports = {
   rules: {
     'block-no-empty': null,

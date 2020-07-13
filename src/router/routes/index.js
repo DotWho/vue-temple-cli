@@ -1,13 +1,35 @@
 // 首屏优化
-import Index from '@/views/index'
+import Home from '@/views/home'
+import Test from '@/views/test'
 
 const router = [
   {
     path: '/',
     name: 'index',
-    component: () => import(/* webpackChunkName: "index" */ '@/views/index'),
+    redirect: '/home'
+  },
+  {
+    path: '/home',
+    name: 'home',
+    component: Home,
     meta: {
-      title: '123'
+      title: '首页'
+    }
+  },
+  // {
+  //   path: '/login',
+  //   name: 'login',
+  //   component: Login,
+  //   meta: {
+  //     title: '登录'
+  //   }
+  // },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
+    meta: {
+      title: '测试'
     }
   }
 ]

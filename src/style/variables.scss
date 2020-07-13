@@ -1,15 +1,16 @@
-$primary: #789262 !default;
-$secondary: #93ad7d !default;
+$primary: rgba(0, 187, 249, 1) !default;
+$secondary: rgba(0, 245, 212, 1) !default;
+
+$font: rgba(40, 61, 59, 1) !default;
+
+$amethyst: rgba(155, 93, 229, 1);
+$magenta-crayola: rgba(241, 91, 181, 1);
+$minion-yellow: rgba(254, 228, 64, 1);
+$capri: rgba(0, 187, 249, 1);
+$sea-green-crayola: rgba(0, 245, 212, 1);
 
 $white: #fff !default;
-$black: #333 !default;
-$deepgrey: #666 !default;
-$grey: #999 !default;
-$red: #ff0000 !default;
-$orange: #eb7b17 !default;
-$blue: #177cb0 !default;
-
-$bg: #fafafa !default;
+$bg: #e8edf7 !default;
 $border: #f2f2f2 !default;
 
 // setImg(xxx.png);

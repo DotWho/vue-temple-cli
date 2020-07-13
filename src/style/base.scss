@@ -7,8 +7,8 @@ html {
 
 body {
   font-size: 14px;
-  color: $deepgrey;
-  background-color: #f5f4f9;
+  color: $font;
+  background-color: $bg;
 }
 
 a {
@@ -101,9 +101,35 @@ li {
   font-weight: bold !important;
 }
 
-@include colorFactory('primary', $primary);
-@include colorFactory('deepgrey', $deepgrey);
-@include colorFactory('grey', $grey);
-@include colorFactory('red', $red);
-@include colorFactory('orange', $orange);
-@include colorFactory('blue', $blue);
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #eee;
+}
+
+::-webkit-scrollbar-track-piece {
+  background-color: #f0f0f0;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-track-piece {
+  background: #eee;
+}
