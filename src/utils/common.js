@@ -69,6 +69,13 @@ export default {
       return
     }
 
+    if (typeof value === 'string') {
+      value = value
+        .replace(/年/g, '-')
+        .replace(/月/g, '-')
+        .replace(/日/g, '')
+    }
+
     const time = new Date(value),
       o = {
         'M+': time.getMonth() + 1, // 月
