@@ -7,6 +7,18 @@ module.exports = {
       }
     }
   },
+  // chainWebpack(config) {
+  //   //提高首屏速度
+  //   config.plugin('preload').tap(() => [
+  //     {
+  //       rel: 'preload',
+  //       fileBlacklist: [/\.map$/, /hot-update\.js$/, /runtime\..*\.js$/],
+  //       include: 'initial'
+  //     }
+  //   ])
+  //   //当页面很多时，它将导致太多无意义的请求
+  //   config.plugins.delete('prefetch')
+  // },
   devServer: {
     port: 9999, // 端口号
     // host: 'localhost',
